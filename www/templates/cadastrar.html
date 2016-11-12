@@ -1,0 +1,38 @@
+<ion-view view-title="Cadastrar">
+	<ion-content>
+		<form ng-submit="salvar()">
+			<div class="list">
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Nome</span>
+					<input type="text" ng-model="pessoa.nome" placeholder="Nome" />
+				</label>
+				<label class="item item-input item-floating-label">
+					<span class="input-label">E-mail</span>
+					<input type="email" ng-model="pessoa.email" placeholder="E-mail" />
+				</label>
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Telefone</span>
+					<input type="tel" ng-model="pessoa.telefone" placeholder="Telefone" />
+				</label>
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Descrição</span>
+					<input type="text" ng-model="pessoa.descricao" placeholder="Descrição" />
+				</label>
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Senha</span>
+					<input type="password" ng-model="pessoa.senha" placeholder="Senha" />
+				</label>
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Confirmar Senha</span>
+					<input type="password" ng-model="pessoa.confirmar_senha" placeholder="Confirmar Senha" />
+				</label>
+			</div>
+			<ion-list class="list-inset">
+				<ion-checkbox ng-repeat="servico in servicos" ng-model="servico.selecionado">
+					{{servico.nome}}
+				</ion-checkbox>
+			</ion-list>
+			<button type="submit" class="button button-small button-block button-positive">Salvar</button>
+		</form>
+	</ion-content>
+</ion-view>
