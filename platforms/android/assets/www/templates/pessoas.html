@@ -1,0 +1,12 @@
+<ion-view view-title="Pessoas">
+	<ion-content>
+		<ion-list>
+			<ion-item href="#/app/pessoas/{{servico_id}}/ver/{{pessoa.id}}" ng-repeat="pessoa in pessoas.dados" class="item-avatar">
+				<img ng-src="{{pessoa.foto}}" />
+				<h2>{{pessoa.nome}}</h2>
+				<p>{{pessoa.descricao}}</p>
+
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>

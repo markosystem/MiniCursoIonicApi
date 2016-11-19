@@ -41,24 +41,67 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('InicioCtrl', function($scope, Servico){
-  //$scope.pessoas = Servico.pessoas();
+.controller('InicioCtrl', function($scope, $ionicLoading, $ionicPopup, Servico){
+  //plugin de Loading { Mudar gif para texto }
+  //$ionicLoading.show({
+  //  template: 'Carregando...'
+  //});
+  $ionicLoading.show();
   Servico.listar().success(function(resposta){
     $scope.servicos = resposta;
+    $ionicLoading.hide();
   }).error(function(resposta){
     console.log(resposta);
+    //plugin de popup
+    $ionicLoading.hide();
+    $ionicPopup.alert({subTitle: resposta.mensagem});
+  });
+})
+//$stateParams: Capturar parametros no app.js (nas rotas)
+.controller('PessoasCtrl', function($scope, $ionicLoading, $ionicPopup, $stateParams, Pessoa){
+  $ionicLoading.show();
+  var id = $stateParams.id;
+  $scope.servico_id = id;
+  Pessoa.listar(id)
+  .success(function(resposta){
+    $scope.pessoas = resposta;
+    $ionicLoading.hide();
+  })
+  .error(function(resposta){
+    console.log(resposta);
+    $ionicLoading.hide();
+    $ionicPopup.alert({subTitle: resposta.mensagem});
   });
 })
 
-.controller('PessoasCtrl', function($scope, Pessoa){
-  
+//$stateParams: Capturar parametros no app.js (nas rotas)
+.controller('PessoaCtrl', function($scope, $ionicLoading,  $ionicPopup, $stateParams, Pessoa){
+  $ionicLoading.show();
+  var id = $stateParams.id;
+  var servico_id = $stateParams.servico_id;
+  Pessoa.visualizar(servico_id, id)
+  .success(function(resposta){
+    $scope.pessoa = resposta;
+    $ionicLoading.hide();
+  })
+  .error(function(resposta){
+    console.log(resposta);
+    $ionicLoading.hide();
+    $ionicPopup.alert({subTitle: resposta.mensagem});
+  });
 })
 
-.controller('CadastrarCtrl', function($scope, Pessoa, Servico){
-  Servico.listar().success(function(resposta){
+.controller('CadastrarCtrl', function($scope, $ionicLoading, $ionicPopup, Pessoa, Servico){
+  $ionicLoading.show();
+  Servico.listar()
+  .success(function(resposta){
     $scope.servicos = resposta;
+    $ionicLoading.hide();
   }).error(function(resposta){
     console.log(resposta);
+    $ionicLoading.hide();
+    //plugin de popup
+      $ionicPopup.alert({subTitle: resposta.mensagem});
   });
   $scope.pessoa = {};
   $scope.salvar = function(){
@@ -73,10 +116,15 @@ angular.module('starter.controllers', [])
 
     Pessoa.salvar($scope.pessoa)
     .success(function(resposta){
-      alert(resposta.mensagem)
+      $ionicLoading.hide();
+      $ionicPopup.alert({subTitle: resposta.mensagem});
+      $location.path('/app/inicio');
     })
     .error(function(resposta){
-      alert(resposta.mensagem)
-    })
+      console.log(resposta);
+      $ionicLoading.hide();
+      //plugin de popup
+      $ionicPopup.alert({subTitle: resposta.mensagem});
+  })
   }
 })
